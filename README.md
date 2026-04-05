@@ -23,21 +23,45 @@ Other Concepts: DTOs, Exception Handling, Service Layer Architecture
 
 Project Structure:-
 
-src/
-└── main/java/com/example/demo
-    ├── config/        # Application configuration (WebConfig.java)
-    ├── controller/    # REST controllers (ExpenseController.java)
-    ├── dto/           # Data Transfer Objects (ExpenseDTO.java)
-    ├── exception/     # Custom exceptions & global handler
-    │   ├── ResourceNotFoundException.java
-    │   └── GlobalExceptionHandler.java
-    ├── model/         # Entity classes (Expense.java)
-    ├── repository/    # JPA Repositories (ExpenseRepository.java)
-    └── service/       # Business logic (ExpenseService, ExpenseServiceImpl)
-resources/
-└── application.properties  # Database & Spring Boot configurations
-test/
-└── DemoApplicationTests.java # Basic Spring Boot test
+expense-management-backend/
+├── src/
+│   └── main/
+│       ├── java/
+│       │   └── com/example/demo/
+│       │       ├── config/                  # Application configuration
+│       │       │   └── WebConfig.java
+│       │       │
+│       │       ├── controller/              # REST controllers (handles HTTP requests)
+│       │       │   └── ExpenseController.java
+│       │       │
+│       │       ├── dto/                     # Data Transfer Objects (safe API layer)
+│       │       │   └── ExpenseDTO.java
+│       │       │
+│       │       ├── exception/               # Custom exceptions & global handlers
+│       │       │   ├── ResourceNotFoundException.java
+│       │       │   └── GlobalExceptionHandler.java
+│       │       │
+│       │       ├── model/                   # Entity classes (database layer)
+│       │       │   └── Expense.java
+│       │       │
+│       │       ├── repository/              # Data access layer (JPA repositories)
+│       │       │   └── ExpenseRepository.java
+│       │       │
+│       │       └── service/                 # Business logic layer
+│       │           ├── ExpenseService.java
+│       │           └── ExpenseServiceImpl.java
+│       │
+│       └── resources/
+│           └── application.properties       # Spring Boot & DB configs
+│
+├── test/
+│   └── java/com/example/demo/
+│       └── DemoApplicationTests.java       # Unit & integration tests
+│
+├── .gitignore                               # Ignore target, IDE files, etc.
+├── mvnw / mvnw.cmd                           # Maven wrapper
+├── pom.xml                                  # Maven dependencies
+└── README.md                                # Project description & instructions
 
 
 Database:-
