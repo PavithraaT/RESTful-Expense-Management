@@ -1,10 +1,12 @@
-RESTful Expense Management Backend System
+##**RESTful Expense Management Backend System**
 -----------------------------------------
 
-Project Overview:-
+**Project Overview:-**
+
 This project is a backend system to manage financial expenses using Java and Spring Boot. It exposes RESTful APIs for performing CRUD operations (Create, Read, Update, Delete) on expenses. The project is designed for maintainability, clarity, and scalability, making it easy to extend in the future.
 
-Key Highlights:-
+**Key Highlights:-**
+
 -Developed with Java, Spring Boot, and Maven.
 -RESTful API design using standard HTTP methods.
 -DTO pattern used for safe data transfer between layers.
@@ -12,7 +14,8 @@ Key Highlights:-
 -Validated API requests to prevent incorrect data.
 -Tested APIs using Postman, covering normal and edge cases.
 
-Technologies Used:-
+**Technologies Used:-**
+
 Language: Java 17
 Framework: Spring Boot
 Database: H2 (in-memory; simulates SQLite for development)
@@ -21,17 +24,18 @@ Testing: JUnit, Postman
 Other Concepts: DTOs, Exception Handling, Service Layer Architecture
 
 
-Project Structure:-
+**Project Structure:-**
 
 <img width="658" height="720" alt="image" src="https://github.com/user-attachments/assets/c047f2ba-dea7-4356-a4b7-d847af10f774" />
 
 
-Database:-
+**Database:-**
+
 -H2 in-memory database for fast setup and testing.
 -The schema is auto-generated using JPA/Hibernate.
 
 
-Entity: Expense
+**Entity:** Expense
 id (Long, primary key)
 title (String)
 amount (Double)
@@ -39,7 +43,8 @@ description (String)
 date (LocalDateTime)
 
 
-API Endpoints:-
+**API Endpoints:-**
+
 
 | Method | Endpoint       | Request Body / Params | Description                |
 | ------ | -------------- | --------------------- | -------------------------- |
@@ -51,7 +56,7 @@ API Endpoints:-
 
 
 
-Example JSON for POST/PUT:-
+**Example JSON for POST/PUT:-**
 
 {
   "title": "Groceries",
@@ -61,11 +66,13 @@ Example JSON for POST/PUT:-
 }
 
 
-Exception Handling:-
+**Exception Handling:-**
+
 -ResourceNotFoundException: Thrown when expense with given ID does not exist.
 -GlobalExceptionHandler: Handles exceptions globally and returns standardized HTTP responses.
 
-Example Response (Resource Not Found):
+
+**Example Response (Resource Not Found):**
 
 {
   "timestamp": "2026-04-05T10:05:00",
@@ -74,19 +81,21 @@ Example Response (Resource Not Found):
 }
 
 
-Service Layer:-
+**Service Layer:-**
+
 ExpenseService- interface defines business methods.
 ExpenseServiceImpl- implements these methods.
 ExpenseRepository- handles all database operations using Spring Data JPA.
 
 
-Validation:-
+**Validation:-**
+
 -Ensures title, amount, date are valid.
 -Prevents null or invalid data from entering the database.
 
 -------------------------------------------------------------------
 
-How to Run:-
+**How to Run:-**
 
 1.Clone the repository:
 git clone <your-repo-link>
@@ -102,7 +111,8 @@ JDBC URL: jdbc:h2:mem:testdb
 5.Test APIs using Postman.
 ---------------------------------------------------------------------
 
-Testing:-
+**Testing:-**
+
 -CRUD operations tested with normal and edge cases:
 -Non-existent ID → returns proper exception.
 -Missing fields → validation error.
