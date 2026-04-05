@@ -4,49 +4,124 @@
     <title>Expense Management</title>
 </head>
 <body>
+
 <h1>Expense Management Demo</h1>
 
-<h2>Add Expense</h2>
+<!-- Add / Update Expense -->
+<h2>Add / Update Expense</h2>
+<input id="id" placeholder="ID (for update)">
 <input id="title" placeholder="Title">
 <input id="amount" placeholder="Amount" type="number">
 <input id="category" placeholder="Category">
-<button onclick="addExpense()">Add</button>
 
+<button onclick="addExpense()">Add</button>
+<button onclick="updateExpense()">Update</button>
+
+<p id="message" style="color:red;"></p>
+
+<!-- Expense List -->
 <h2>Expenses</h2>
 <button onclick="getExpenses()">Refresh List</button>
 <ul id="expenseList"></ul>
 
 <script>
-    const apiBase = 'http://localhost:8080/api/expenses';
+    const apiBase = 'http://localhost:8080/api/v1/expenses';
 
+    // Show message
+    function showMessage(msg, isError = true) {
+        const message = document.getElementById('message');
+        message.style.color = isError ? 'red' : 'green';
+        message.innerText = msg;
+    }
+
+    // Add Expense (POST)
     async function addExpense() {
-        const title = document.getElementById('title').value;
-        const amount = parseFloat(document.getElementById('amount').value);
-        const category = document.getElementById('category').value;
+        try {
+            const title = document.getElementById('title').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+            const category = document.getElementById('category').value;
 
-        const res = await fetch(apiBase, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({title, amount, category})
-        });
+            const res = await fetch(apiBase, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({title, amount, category})
+            });
 
-        if(res.ok) {
-            alert('Expense added!');
+            if (!res.ok) throw new Error("Failed to add expense");
+
+            showMessage("Expense added successfully!", false);
             getExpenses();
+        } catch (err) {
+            showMessage(err.message);
         }
     }
 
+    // Get All Expenses (GET)
     async function getExpenses() {
-        const res = await fetch(apiBase);
-        const data = await res.json();
-        const list = document.getElementById('expenseList');
-        list.innerHTML = '';
-        data.forEach(e => {
-            const li = document.createElement('li');
-            li.textContent = `${e.id}: ${e.title} - ${e.amount} (${e.category})`;
-            list.appendChild(li);
-        });
+        try {
+            const res = await fetch(apiBase);
+            if (!res.ok) throw new Error("Failed to fetch expenses");
+
+            const data = await res.json();
+            const list = document.getElementById('expenseList');
+            list.innerHTML = '';
+
+            data.forEach(e => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    ${e.id}: ${e.title} - ${e.amount} (${e.category})
+                    <button onclick="deleteExpense(${e.id})">Delete</button>
+                `;
+                list.appendChild(li);
+            });
+
+            showMessage("Expenses loaded", false);
+        } catch (err) {
+            showMessage(err.message);
+        }
+    }
+
+    // Update Expense (PUT)
+    async function updateExpense() {
+        try {
+            const id = document.getElementById('id').value;
+            const title = document.getElementById('title').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+            const category = document.getElementById('category').value;
+
+            if (!id) throw new Error("ID is required for update");
+
+            const res = await fetch(`${apiBase}/${id}`, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({title, amount, category})
+            });
+
+            if (!res.ok) throw new Error("Update failed (check ID)");
+
+            showMessage("Expense updated successfully!", false);
+            getExpenses();
+        } catch (err) {
+            showMessage(err.message);
+        }
+    }
+
+    // Delete Expense (DELETE)
+    async function deleteExpense(id) {
+        try {
+            const res = await fetch(`${apiBase}/${id}`, {
+                method: 'DELETE'
+            });
+
+            if (!res.ok) throw new Error("Delete failed (invalid ID)");
+
+            showMessage("Expense deleted!", false);
+            getExpenses();
+        } catch (err) {
+            showMessage(err.message);
+        }
     }
 </script>
+
 </body>
 </html>
